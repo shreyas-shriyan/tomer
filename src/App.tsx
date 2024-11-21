@@ -16,11 +16,21 @@ function App() {
 
   return (
     <div className="container">
-      <input onChange={(e) => setName(e.target.value)} />
+      <input
+        className=" rounded-md"
+        onChange={(e) => setName(e.target.value)}
+      />
       <button onClick={() => setItems([...items, name])}>Add</button>
       <div>
         {items.map((item) => {
-          return <div style={{ padding: "10px" }}>{item}</div>;
+          return (
+            <div
+              className="p-2 text-white"
+              style={{ padding: "10px", color: "white" }}
+            >
+              {item}
+            </div>
+          );
         })}
       </div>
       <p>{greetMsg}</p>
