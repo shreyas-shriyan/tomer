@@ -1,15 +1,33 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
+import { TrayIcon } from "@tauri-apps/api/tray";
+// import { defaultWindowIcon } from "@tauri-apps/api/app";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
 
   const [items, setItems] = useState([""]);
 
+  let tray: TrayIcon | undefined;
+  async function newTray() {
+    // const icon = await defaultWindowIcon();
+    if (!tray) {
+      tray = await TrayIcon.new({ title: "tomer" });
+    } else {
+      tray.close();
+      tray = await TrayIcon.new({ title: "after close" });
+    }
+  }
+
+  useEffect(() => {
+    newTray();
+  }, []);
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function greet() {
+    // jkhhkjdf
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
     setGreetMsg(await invoke("greet", { name }));
   }
@@ -17,6 +35,7 @@ function App() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (inputRef?.current?.value) {
+      tray?.setTitle(inputRef?.current?.value);
       setItems([...items, inputRef?.current?.value]);
     }
   };

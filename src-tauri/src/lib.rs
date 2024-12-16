@@ -1,3 +1,4 @@
+use tauri::tray::{TrayIcon, TrayIconBuilder};
 use tauri::Manager;
 use window_vibrancy::{apply_vibrancy, NSVisualEffectMaterial, NSVisualEffectState};
 
@@ -28,6 +29,16 @@ pub fn run() {
             // #[cfg(target_os = "windows")]
             // apply_blur(&window, Some((18, 18, 18, 125)))
             //     .expect("Unsupported platform! 'apply_blur' is only supported on Windows");
+
+            let tray = TrayIconBuilder::new()
+                // .icon(app.default_window_icon().unwrap().clone())
+                .title("tomer")
+                .tooltip("example")
+                .build(app)
+                .expect("tray icon error");
+
+            tray.set_title(Some("tomer updated"))
+                .expect("tray icon error");
 
             Ok(())
         })
